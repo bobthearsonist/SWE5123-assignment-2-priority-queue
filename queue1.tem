@@ -1,0 +1,45 @@
+// FILE: queue1.template
+// TEMPLATE CLASS IMPLEMENTED: Queue<Item> (see queue1.h for documentation)
+// This file is included in the header file, and not compiled separately.
+// INVARIANT for the Queue ADT:
+//   1. The number of items in the Queue is in the member variable count;
+//   2. For a non-empty Queue, the items are stored in a circular array
+//      beginning at data[front] and continuing through data[rear].
+//      The array's total capacity of the array is CAPACITY.
+//   3. For an empty array, rear is some valid index, and front is
+//      always equal to next_index(rear).
+//      
+
+#include <assert.h>  // Provides assert
+#include <stdlib.h>  // Provides size_t
+
+template <class Item>
+Queue<Item>::Queue( )
+{
+    count = 0;
+    front = 0;
+    rear = CAPACITY - 1;
+}
+
+template <class Item>
+void Queue<Item>::insert(const Item& entry)
+// Library facilities used: assert.h
+{
+    assert(size( ) < CAPACITY);
+    rear = next_index(rear);
+    data[rear] = entry;
+    count++;
+}
+
+template <class Item>
+Item Queue<Item>::get_front( )
+// Library facilities used: assert.h
+{
+    size_t answer_index;
+
+    assert(!is_empty( ));
+    answer_index = front;
+    front = next_index(front);
+    count--;    
+    return data[answer_index];
+}
